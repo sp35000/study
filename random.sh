@@ -1,4 +1,4 @@
 #!/bin/bash
-for ((i = 0 ; i < 20 ; i++)); do
-  echo -n $((1 + $RANDOM % 70)),
+for ((i = 0 ; i < 1000 ; i++)); do
+  echo -n $((1 + $RANDOM % 1000)),
 done
