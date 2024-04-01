@@ -35,6 +35,13 @@ int main() {
   pop (p);
   show (p);
   pop (p);
+  show (p);
+  pop (p);
+  show (p);
+  pop (p);
+  show (p);
+  pop (p);
+  show (p);
 }
 
 Pilha*	iniciar() {
@@ -45,6 +52,7 @@ Pilha*	iniciar() {
 }
 
 void	push(Pilha	*p,	char	caractere) {
+  printf("Push: %c\n",caractere);
   Elemento	*e	=	malloc(sizeof(Elemento));
   e->valor	=	caractere;
   e->proximo	=	p->topo;
@@ -56,6 +64,7 @@ char pop(Pilha	*p) {
 	Elemento	*e;
   char	c;
 if	(!empty(p))	{
+    printf("Pop\n");
 		e	=	p->topo;
 		c	=	e->valor;
 		p->topo	=	p->topo->proximo;
@@ -80,10 +89,13 @@ int	empty(Pilha	*p) {
 void show (Pilha *p) {
   Elemento *tmp	=	malloc(sizeof(Elemento));
   tmp=p->topo;
-  printf("Stack size: %i\n",size(p));
-  while (tmp->proximo != NULL) {
-    printf("%c ---> %p\n",tmp->valor,tmp->proximo);
-    tmp=tmp->proximo;
+  int tamanho = size(p);
+  printf("Stack size: %i\n",tamanho);
+  if (tamanho !=0) {
+    while (tmp->proximo != NULL) {
+      printf("%c ---> %p\n",tmp->valor,tmp->proximo);
+      tmp=tmp->proximo;
+    }
+    printf("%c ---> %p\n\n",tmp->valor,tmp->proximo);
   }
-  printf("%c ---> %p\n\n",tmp->valor,tmp->proximo);
 }
