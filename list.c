@@ -14,7 +14,8 @@ typedef struct lista	{
 Lista* iniciar();
 void add(Lista	*l,	char	caractere);
 void add_pos(Lista	*l,	char	caractere,int posicao);
-// char dequeue(Lista	*l);
+char	get(Lista	*l,	int	posicao);
+void	set(Lista	*l,	char	caractere,	int	posicao);
 int	size(Lista	*l);
 // char	head(Lista	*l);
 int	empty(Lista	*l);
@@ -40,6 +41,16 @@ int main() {
   show(l);
   add_pos(l,'*',5);
   show(l);
+  set(l,'#',5);
+  show(l);
+  get(l,1);
+  get(l,2);
+  get(l,3);
+  get(l,4);
+  get(l,5);
+  get(l,6);
+  get(l,7);
+  get(l,8);
 }
 
 Lista* iniciar() {
@@ -100,34 +111,56 @@ void add_pos(Lista	*l,	char	caractere,int posicao){
   l->tamanho	=	l->tamanho	+	1;
 }
 
-// char dequeue(Lista	*l) {
-// 	Elemento	*e;
-//   char	caracter;
-//   if	(!empty(f))	{
-//       printf("Dequeue\n");
-//   		e	=	l->cabeca;
-//   		caracter	=	e->valor;
-//   		l->cabeca	=	e->proximo;
-//   		if	(empty(f))	{
-//   			l->fim	=	NULL;
-//   		}
-//   		l->tamanho	=	l->tamanho	-	1;
-//   		free(e);
-//   		return	caracter;
-//   }	else	{
-//   		printf("Lista vazia. ");
-//   		return '\0';
-//   }
-// }
+char	get(Lista	*l,	int	posicao) {
+  if	(empty(l))	{	/*I*/
+  		printf("Lista	vazia.\n");
+  		return '\0';
+  	}
+  if	(posicao	>	l->tamanho	||	posicao	<=	0)	{
+  		printf("Posição	inválida!\n");
+  		return '\0';
+  	}
+  int	i	=	1;	/*III*/
+  	Elemento	*e	=	l->inicio;
+  while	(e->proximo	!=	NULL)	{
+  		if	(i	==	posicao)	{
+        printf("Get[%i]-->%c\n",posicao,e->valor);
+  			return	e->valor;
+  		}	else	{
+  			e	=	e->proximo;
+  			i++;
+  		}
+  	}
+  return '\0';
+}
+
+void	set(Lista	*l,	char	caractere,	int	posicao) {
+  printf("Set[%i]=%c ",posicao,caractere);
+  if	(empty(l))	{	/*I*/
+  		printf("Lista	vazia.	Set	não	permitido!\n");
+  		return;
+  	}
+  if	(posicao	>	l->tamanho	||	posicao	<=	0)	{
+  		printf("Posição	inválida!\n");
+  		return;
+  	}
+  int	i	=	1;
+  	Elemento	*e	=	l->inicio;
+  while	(e->proximo	!=	NULL)	{
+  		if	(i	==	posicao)	{
+  			e->valor	=	caractere;
+        return;
+      }	else	{
+        e	=	e->proximo;
+        i++;
+      }
+    }
+}
 
 int	size(Lista	*l) {
 			return	l->tamanho;
 }
 
-// char	head(Lista	*l) {
-// 			return	l->cabeca->valor;
-// }
-//
 int	empty(Lista	*l) {
   return	l->tamanho	==	0;
 }
