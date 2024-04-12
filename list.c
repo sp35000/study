@@ -14,35 +14,25 @@ typedef struct lista	{
 Lista* iniciar();
 void add(Lista	*l,	char	caractere);
 void add_pos(Lista	*l,	char	caractere,int posicao);
-char	get(Lista	*l,	int	posicao);
-void	set(Lista	*l,	char	caractere,	int	posicao);
-int	size(Lista	*l);
-// char	head(Lista	*l);
 int	empty(Lista	*l);
+void delete(Lista	*l,	int	posicao);
+char get(Lista	*l,	int	posicao);
+void set(Lista	*l,	char	caractere,	int	posicao);
 void show(Lista *l);
+int	size(Lista	*l);
 
 int main() {
   Lista *l = iniciar();
   add_pos(l,'H',1);
-  show(l);
   add(l,'G');
-  show(l);
   add_pos(l,'F',1);
-  show(l);
   add(l,'E');
-  show(l);
   add(l,'D');
-  show(l);
   add(l,'C');
-  show(l);
   add(l,'B');
-  show(l);
   add(l,'A');
-  show(l);
   add_pos(l,'*',5);
-  show(l);
   set(l,'#',5);
-  show(l);
   get(l,1);
   get(l,2);
   get(l,3);
@@ -51,6 +41,15 @@ int main() {
   get(l,6);
   get(l,7);
   get(l,8);
+  delete(l,8);
+  delete(l,7);
+  delete(l,6);
+  delete(l,5);
+  delete(l,4);
+  delete(l,3);
+  delete(l,2);
+  delete(l,1);
+  delete(l,1);
 }
 
 Lista* iniciar() {
@@ -76,6 +75,7 @@ void add(Lista	*l,	char	caractere) {
     e->proximo = antigo_inicio;
   }
   l->tamanho = l->tamanho + 1;
+  show(l);
 }
 
 void add_pos(Lista	*l,	char	caractere,int posicao){
@@ -165,18 +165,52 @@ int	empty(Lista	*l) {
   return	l->tamanho	==	0;
 }
 
+void delete(Lista	*l,	int	posicao) {
+  if	(empty(l))	{
+    printf("Lista	vazia.	Delete	não	permitido!\n");
+    return;
+  }
+  if	(posicao	>	l->tamanho	||	posicao	<=	0)	{
+    printf("Posição	inválida!\n");
+    return;
+  }
+  if	(posicao	==	1)	{
+    Elemento	*e	=	l->inicio;
+    char	caracter	=	e->valor;
+    l->inicio	=	e->proximo;
+    free(e);
+    l->tamanho	=	l->tamanho	-	1;
+    printf("Delete[%i]-->%c\n",posicao,caracter);
+  }	else	{
+    Elemento	*e_atual	=	l->inicio;
+    Elemento	*e_anterior;
+    int	i;
+    for(i	=	1;	i	<	posicao	;	i++){
+      e_anterior	=	e_atual;
+      e_atual	=	e_atual->proximo;
+      printf("%i %c,%c: ",i,e_anterior->valor,e_atual->valor);
+  }
+  char	caracter	=	e_atual->valor;
+  e_anterior->proximo	=	e_atual->proximo;
+  free(e_atual);
+  l->tamanho	=	l->tamanho	-	1;
+  printf("Delete[%i]-->%c\n",posicao,caracter);
+  }
+  show(l);
+}
+
 void show (Lista *l) {
-  Elemento *tmp	=	malloc(sizeof(Elemento));
-  tmp=l->inicio;
   int tamanho = size(l);
   printf("List size: %i ",tamanho);
   if (tamanho !=0) {
+    Elemento *tmp	=	malloc(sizeof(Elemento));
+    tmp=l->inicio;
     int i=0;
     while (tmp->proximo != NULL) {
       printf("[%i]=%c,",i,tmp->valor);
       tmp=tmp->proximo;
       i++;
     }
-    printf("[%i]=%c\n",i,tmp->valor);
+    printf("[%i]=%c\n\n",i,tmp->valor);
   }
 }
