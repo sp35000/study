@@ -1,0 +1,65 @@
+<html>
+
+<head></head>
+
+<body>
+    <h1>LabJS</h1>
+    <form>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name"><br />
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email"><br />
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password"><br />
+        <label for="w3review">Text Sample:</label>
+        <textarea id="w3review" name="w3review" rows="4" cols="50">Text</textarea>
+        <button type="button" onclick="copyToClipboard()">Copy Text</button>
+    </form>
+
+    <script>
+        function copyToClipboard() {
+            const textarea = document.getElementById('w3review');
+            const text = textarea.value;
+            
+            // Use the modern Clipboard API if available
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Text copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    fallbackCopyTextToClipboard(text);
+                });
+            } else {
+                // Fallback for older browsers
+                fallbackCopyTextToClipboard(text);
+            }
+        }
+        
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert('Text copied to clipboard!');
+                } else {
+                    alert('Failed to copy text');
+                }
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+                alert('Failed to copy text');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+    </script>
+</body>
+
+</html>
